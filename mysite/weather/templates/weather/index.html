@@ -13,7 +13,13 @@
 
 <body>
 
-<h2>Weather in Oulu</h2> <br>
+<h2>Weather in {{city}}</h2> <br>
+
+    <form method="get" action="submit_city">
+        {{ form }}
+        <input id = "city" type="text" value="{{city}}" name="city">
+        <input type="submit" value="Submit">
+    </form>
 
     <p> Temperature: {{temperature}} °  </p>
     <p> Air pressure: {{pressure}} </p>
