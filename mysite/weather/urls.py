@@ -3,6 +3,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('submit_city', views.submit_city)
+    path('', views.index),
+    path('city/', views.week_view, name="submit"),
+    path('city/day/<int:pk>/', views.day_view)
 ]

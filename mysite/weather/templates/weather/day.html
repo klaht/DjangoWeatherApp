@@ -1,0 +1,29 @@
+{% extends 'weather/base.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+{% block main_content %}
+
+<body>
+
+<h2>{{city}}</h2> <br>
+
+    <p> {{slot1.time}} Temperature: {{slot1.temp}} ° Humidity: {{slot1.humidity}} </p><br>
+    <p> {{slot2.time}} Temperature: {{slot2.temp}} ° Humidity: {{slot2.humidity}} <p/><br>
+    <p> {{slot3.time}} Temperature: {{slot3.temp}} ° Humidity: {{slot3.humidity}} </p><br>
+    <p> {{slot4.time}} Temperature: {{slot4.temp}} ° Humidity: {{slot4.humidity}} </p><br>
+    <p> {{slot5.time}} Temperature: {{slot5.temp}} ° Humidity: {{slot5.humidity}} </p><br>
+    <p> {{slot6.time}} Temperature: {{slot6.temp}} ° Humidity: {{slot6.humidity}} </p><br>
+    <p> {{slot7.time}} Temperature: {{slot7.temp}} ° Humidity: {{slot7.humidity}} </p><br>
+    <p> {{slot8.time}} Temperature: {{slot8.temp}} ° Humidity: {{slot8.humidity}} </p><br>
+
+    <input type=button value="Back to week page" onClick="location.href='{{url}}'">
+
+</body>
+</html>
+
+{% endblock %}

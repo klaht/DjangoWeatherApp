@@ -1,0 +1,26 @@
+{% extends 'weather/base.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+{% block main_content %}
+
+<body>
+
+<h2>{{city}}</h2> <br>
+
+    <input type="button" value="{{day1.date}} Temperature: {{day1.temp}} ° Humidity: {{day1.humidity}}" onclick="location.href='day/1'"/><br>
+    <input type="button" value="{{day2.date}} Temperature: {{day2.temp}} ° Humidity: {{day2.humidity}}" onclick="location.href='day/2'"/><br>
+    <input type="button" value="{{day3.date}} Temperature: {{day3.temp}} ° Humidity: {{day3.humidity}}" onclick="location.href='day/3'"/><br>
+    <input type="button" value="{{day4.date}} Temperature: {{day4.temp}} ° Humidity: {{day4.humidity}}" onclick="location.href='day/4'"/><br>
+    <input type="button" value="{{day5.date}} Temperature: {{day5.temp}} ° Humidity: {{day5.humidity}}" onclick="location.href='day/5'"/><br>
+
+    <input type=button value="Back to main page" onClick="location.href='/weather'">
+
+</body>
+</html>
+
+{% endblock %}

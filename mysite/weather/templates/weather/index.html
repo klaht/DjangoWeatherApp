@@ -13,18 +13,13 @@
 
 <body>
 
-<h2>Weather in {{city}}</h2> <br>
+<h2>City</h2> <br>
 
-    <form method="get" action="submit_city">
+    <form method="GET" action="city/">
         {{ form }}
         <input id = "city" type="text" value="{{city}}" name="city">
         <input type="submit" value="Submit">
     </form>
-
-    <p> Temperature: {{temperature}} °  </p>
-    <p> Air pressure: {{pressure}} </p>
-    <p> Humidity: {{humidity}} </p>
-
 
 </body>
 </html>
