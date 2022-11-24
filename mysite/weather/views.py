@@ -1,8 +1,10 @@
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
-from .forms import CityForm
+from django.shortcuts import render, get_object_or_404
 import requests
+from .forms import CityForm
 import json
+
+from .localData import Week, Day, TimeSlot
 
 api_key = "dd82f9fc45781a5307d640e53bfcee0d"
 
@@ -11,115 +13,63 @@ def index(request):
     return render(request, 'weather/index.html')
 
 
+def organize_API_data(city):
+    week = Week(city)
+
+    forecast_data = f"https://api.openweathermap.org/data/2.5/forecast?q={city}&units=metric&appid={api_key}"
+    response = requests.get(forecast_data)
+    data_json = response.json()
+
+    if data_json["cod"] != "404":
+        i = 0
+        current_day = data_json["list"][0]["dt_txt"][5:10]
+        day_index = 0
+
+        # fill the local week data structure with the data from the api
+        for day_num in range(6):
+            day = Day(data_json["list"][i]["dt_txt"], data_json["list"][i]["main"]["temp"], data_json["list"][i]["main"]["humidity"], day_num + 1)
+            week.days.append(day)
+            while i < len(data_json["list"]):
+                if data_json["list"][i]["dt_txt"][5:10] == current_day:
+                    time_slot = TimeSlot(data_json["list"][i]["dt_txt"], data_json["list"][i]["main"]["temp"],
+                                         data_json["list"][i]["main"]["humidity"])
+                    day.timeslots.append(time_slot)
+                    i += 1
+                    day_index += 1
+                else:
+                    current_day = data_json["list"][i]["dt_txt"][5:10]
+                    break
+        return week
+
+    return HttpResponse("Error")
+
+
 def week_view(request):
     if request.method == 'GET':
 
         form = CityForm(request.GET)
 
         if form.is_valid():
-
-            # user inputted city
+            # organize api data from user inputted city into a variable "week"
             city = form.cleaned_data.get("city").capitalize()
+            week = organize_API_data(city)
 
-            # set current session city
             request.session['city'] = city
 
-            # get city forecast data
-            forecast_data = f"https://api.openweathermap.org/data/2.5/forecast?q={city}&units=metric&appid={api_key}"
-            response = requests.get(forecast_data)
-            data_json = response.json()
-
-            if data_json["cod"] == "404":
-                return render(request, 'weather/error.html')
-
-            day1 = {"date": data_json["list"][0]["dt_txt"], "temp": data_json["list"][0]["main"]["temp"],
-                    "humidity": data_json["list"][0]["main"]["humidity"]}
-
-            day2 = {"date": data_json["list"][8]["dt_txt"], "temp": data_json["list"][8]["main"]["temp"],
-                    "humidity": data_json["list"][8]["main"]["humidity"]}
-
-            day3 = {"date": data_json["list"][16]["dt_txt"], "temp": data_json["list"][16]["main"]["temp"],
-                    "humidity": data_json["list"][16]["main"]["humidity"]}
-
-            day4 = {"date": data_json["list"][24]["dt_txt"], "temp": data_json["list"][24]["main"]["temp"],
-                    "humidity": data_json["list"][24]["main"]["humidity"]}
-
-            day5 = {"date": data_json["list"][32]["dt_txt"], "temp": data_json["list"][32]["main"]["temp"],
-                    "humidity": data_json["list"][32]["main"]["humidity"]}
-
-            data = {"city": city,
-                    "day1": day1,
-                    "day2": day2,
-                    "day3": day3,
-                    "day4": day4,
-                    "day5": day5}
-
-            return render(request, 'weather/week.html', data)
+            return render(request, 'weather/week.html', {'week': week})
 
     return render(request, 'weather/error.html')
 
 
 def day_view(request, pk):
-
     if request.method == 'GET':
-
         city = request.session.get('city')
 
-        forecast_data = f"https://api.openweathermap.org/data/2.5/forecast?q={city}&units=metric&appid={api_key}"
-        response = requests.get(forecast_data)
-        data_json = response.json()
+        week = organize_API_data(city)
 
-        # set timeslot index to i (day 1 = index 0-7, day 2 = index 8-15, etc)
-        i = pk * 8 - 8
+        day = week.days[pk-1]
+        day.set_city(city)
 
-        timeslot1 = {"time": str.split(data_json["list"][i]["dt_txt"]),
-                     "temp": data_json["list"][i]["main"]["temp"],
-                     "humidity": data_json["list"][i]["main"]["humidity"]}
-
-        timeslot2 = {"time": str.split(data_json["list"][i + 1]["dt_txt"]),
-                     "temp": data_json["list"][i + 1]["main"]["temp"],
-                     "humidity": data_json["list"][i + 1]["main"]["humidity"]}
-
-        timeslot3 = {"time": str.split(data_json["list"][i + 2]["dt_txt"]),
-                     "temp": data_json["list"][i + 2]["main"]["temp"],
-                     "humidity": data_json["list"][i + 2]["main"]["humidity"]}
-
-        timeslot4 = {"time": str.split(data_json["list"][i + 3]["dt_txt"]),
-                     "temp": data_json["list"][i + 3]["main"]["temp"],
-                     "humidity": data_json["list"][i + 3]["main"]["humidity"]}
-
-        timeslot5 = {"time": str.split(data_json["list"][i + 4]["dt_txt"]),
-                     "temp": data_json["list"][i + 4]["main"]["temp"],
-                     "humidity": data_json["list"][i + 4]["main"]["humidity"]}
-
-        timeslot6 = {"time": str.split(data_json["list"][i + 5]["dt_txt"]),
-                     "temp": data_json["list"][i + 5]["main"]["temp"],
-                     "humidity": data_json["list"][i + 5]["main"]["humidity"]}
-
-        timeslot7 = {"time": str.split(data_json["list"][i + 6]["dt_txt"]),
-                     "temp": data_json["list"][i + 6]["main"]["temp"],
-                     "humidity": data_json["list"][i + 6]["main"]["humidity"]}
-
-        timeslot8 = {"time": str.split(data_json["list"][i + 7]["dt_txt"]),
-                     "temp": data_json["list"][i + 7]["main"]["temp"],
-                     "humidity": data_json["list"][i + 7]["main"]["humidity"]}
-
-        #url back to week page
-        url = "/weather/city/?city=" + city
-
-        data = {
-            "city": city,
-            "url": url,
-            "slot1": timeslot1,
-            "slot2": timeslot2,
-            "slot3": timeslot3,
-            "slot4": timeslot4,
-            "slot5": timeslot5,
-            "slot6": timeslot6,
-            "slot7": timeslot7,
-            "slot8": timeslot8
-        }
-
-        return render(request, 'weather/day.html', data)
+        return render(request, 'weather/day.html', {'day': day})
 
     return render(request, 'weather/error.html')
