@@ -27,11 +27,12 @@ def organize_API_data(city):
 
         # fill the local week data structure with the data from the api
         for day_num in range(6):
-            day = Day(data_json["list"][i]["dt_txt"], data_json["list"][i]["main"]["temp"], data_json["list"][i]["main"]["humidity"], day_num + 1)
+            day = Day(data_json["list"][i]["dt_txt"].split()[0], data_json["list"][i]["dt_txt"].split()[1], data_json["list"][i]["main"]["temp"], data_json["list"][i]["main"]["humidity"], day_num + 1)
             week.days.append(day)
             while i < len(data_json["list"]):
                 if data_json["list"][i]["dt_txt"][5:10] == current_day:
-                    time_slot = TimeSlot(data_json["list"][i]["dt_txt"], data_json["list"][i]["main"]["temp"],
+                    print(data_json["list"][i]["dt_txt"][5:10])
+                    time_slot = TimeSlot(data_json["list"][i]["dt_txt"].split()[0], data_json["list"][i]["dt_txt"].split()[1], data_json["list"][i]["main"]["temp"],
                                          data_json["list"][i]["main"]["humidity"])
                     day.timeslots.append(time_slot)
                     i += 1

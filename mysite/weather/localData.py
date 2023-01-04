@@ -7,8 +7,9 @@ class Week:
 
 
 class Day:
-    def __init__(self, date, temperature, humidity, day_num):
+    def __init__(self, date, time, temperature, humidity, day_num):
         self.date = date
+        self.time = time
         self.temperature = temperature
         self.humidity = humidity
         self.day_num = day_num
@@ -20,7 +21,8 @@ class Day:
 
 
 class TimeSlot:
-    def __init__(self, date, temperature, humidity):
+    def __init__(self, date, time, temperature, humidity):
         self.date = date
+        self.time = time
         self.temperature = temperature
         self.humidity = humidity

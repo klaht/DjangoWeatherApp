@@ -4,8 +4,13 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.108.0">
     <title>Title</title>
-    <link rel="stylesheet" type = "text/css" href = "{% static 'weather/style.css' %}" />
+    <link rel="stylesheet" type = "text/css" href = "{% static 'weather/bootstrap-5.3.0-alpha1-dist/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" type = "text/css" href = "{% static 'weather/bootstrap-5.3.0-alpha1-dist/css/bootstrap-grid.css' %}" />
 </head>
 
 <hr>
@@ -13,8 +18,35 @@
 
 <body>
 
-{% block main_content %}
-{% endblock %}
+
+  <div class="container py-4">
+
+
+    <header class="pb-3 mb-4 border-bottom">
+      <a href="/weather" class="d-flex align-items-center text-dark text-decoration-none">
+        <span class="fs-4">Weather app header title </span>
+      </a>
+    </header>
+      <div class="p-5 mb-4 bg-light rounded-3">
+      <div class="container-fluid py-5">
+
+      </div>
+
+        <h1 class="display-5 fw-bold">Weather app</h1>
+
+      {% block main_content %}
+      {% endblock %}
+
+        </div>
+
+
+    <footer class="pt-3 mt-4 text-muted border-top">
+      &copy; 2022
+    </footer>
+  </div>
+
+
+
 
 <hr>
 

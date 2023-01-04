@@ -12,10 +12,31 @@
 
 <h2>{{city}}</h2> <br>
 
+    <h2> {{day.date}} </h2>
 
     {% for timeslot in day.timeslots %}
-        <p> {{timeslot.date}} Temperature: {{timeslot.temperature}} ° Humidity: {{timeslot.humidity}} </p><br>
+        <input class="btn" type="button" value="{{timeslot.time}} Temperature: {{timeslot.temperature}} ° Humidity: {{timeslot.humidity}}"/>
     {% endfor %}
+    <style>
+      .btn {
+        width: 125px;
+        height: 120px;
+        white-space: normal;
+        word-wrap: break-word;
+        padding: 3px 3px;
+        margin: 3px;
+        background-color: rgb(13, 110, 253);
+        border: 2px solid black;
+        border-radius: 0px;
+        text-align: center;
+        outline: none;
+        font-size: 12px;
+        color: #ffffff;
+        cursor: pointer;
+      }
+    </style>
+
+    <br>
 
     <input type=button value="Back to week page" onClick="location.href='/weather/city/?city={{day.city}}'">
 
