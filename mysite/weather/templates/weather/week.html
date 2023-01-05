@@ -13,10 +13,13 @@
 <body>
 
 <h2>{{week.city}}</h2> <br>
+    <div class="row">
 
     {% for day in week.days %}
         <input class="btn" type="button" value="{{day.date}} Temperature: {{day.temperature}} ° Humidity: {{day.humidity}}" onclick="location.href='day/{{day.day_num}}'" />
     {% endfor %}
+
+      </div>
 
     <style>
       .btn {

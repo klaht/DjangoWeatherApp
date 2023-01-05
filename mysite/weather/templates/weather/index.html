@@ -4,23 +4,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-<style>
 
-</style>
 </head>
 
-{% block main_content %}
 
-<body>
-    <p class="col-md-8 fs-4">Select a city</p>
-    <form method="GET" action="city/">
-        {{ form }}
-        <input id = "city" type="text" value="{{city}}" name="city">
-        <input class="btn btn-primary btn-lg" type="submit" value="Submit">
-    </form>
+    {% block main_content %}
+    <body>
+
+        <p class="col-md-8 fs-4">Select a city</p>
+        <form method="GET" action="city/">
+            {{ form }}
+            <input id = "city" type="text" value="{{city}}" name="city">
+            <input class="btn btn-primary btn-lg" type="submit" value="Submit">
+        </form>
 
 
-</body>
+    </body>
+
 </html>
 
 {% endblock %}
