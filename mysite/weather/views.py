@@ -66,7 +66,7 @@ def week_view(request):
     return render(request, 'weather/error.html')
 
 
-def day_view(request, pk):
+def day_view(request, pk, graph):
     if request.method == 'GET':
         city = request.session.get('city')
 
@@ -74,11 +74,17 @@ def day_view(request, pk):
 
         day = week.days[pk - 1]
         day.set_city(city)
+        if graph == "t":
 
-        day_data = [['Time', 'Temperature']]
+            day_data = [['Time', 'Temperature']]
 
-        for slot in day.timeslots:
-            day_data.append([slot.time, slot.temperature])
+            for slot in day.timeslots:
+                day_data.append([slot.time, slot.temperature])
+        else:
+            day_data = [['Time', 'Humidity']]
+
+            for slot in day.timeslots:
+                day_data.append([slot.time, slot.humidity])
 
         return render(request, 'weather/day.html', {'day': day, 'hourValues': day_data})
 
