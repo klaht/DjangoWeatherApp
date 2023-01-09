@@ -9,12 +9,12 @@
       <div class="container d-flex flex-wrap">
       <ul class="nav me-auto">
          {% if day.day_num > 1 %}
-         <input type=button class="btn btn-primary btn-lg" value="Prev day" onclick="location.href='/weather/city/day/{{day.day_num|add:-1}}/t'">
+         <input type=button class="btn btn-primary btn-lg" value="Prev day" onclick="location.href='/weather/city/day/{{day.day_num|add:-1}}/0/t'">
          {% endif %}
       </ul>
       <ul class="nav">
          {% if day.day_num < 6 %}
-         <input type=button value="Next day" class="btn btn-primary btn-lg" onclick="location.href='/weather/city/day/{{day.day_num|add:+1}}/t'">
+         <input type=button value="Next day" class="btn btn-primary btn-lg" onclick="location.href='/weather/city/day/{{day.day_num|add:+1}}/0/t'">
          {% endif %}
       </ul>
    </div>
@@ -22,7 +22,24 @@
          <br>
          <h2>{{day.city}}</h2>
          <h2> {{day.date}}</h2>
+      <div class="col-md-6">
+        <div class="w-75 p-3 bg-info border rounded-3">
+         <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
+               <div>
+                  <p> {{slot.time}} {{slot.description}}</p>
+                  <p> Temperature: {{slot.temperature}} </p>
+                  <p> Humidity: {{slot.humidity}} </p>
+               </div>
+               <div class="weather-icon"><img src="http://openweathermap.org/img/wn/{{slot.icon_code}}@2x.png" /></div>
+            </div>
+
+
+          </div>
+
+        </div>
       </div>
+
       <header class="d-flex flex-wrap justify-content-left py-3 mb-4 border-bottom">
       <ul class="nav nav-pills">
          {%if hourValues.0.1 == "Temperature" %}
@@ -45,17 +62,30 @@
 
 
               var options = {
+                pointsVisible: true,
                 legend: { position: 'bottom' }
+
               };
 
+                // The select handler. Call the chart's getSelection() method
+              function selectHandler() {
+
+                var selectedItem = chart.getSelection()[0];
+                if (selectedItem) {
+
+                  window.location.href = "/weather/city/day/{{day.day_num}}/" + selectedItem.row + "/t";
+                }
+              }
+
               var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+              google.visualization.events.addListener(chart, 'select', selectHandler);
 
               chart.draw(data, options);
             }
          </script>
       </head>
       <body>
-         <div class="container" id="curve_chart" style="width: 900px; height: 500px"></div>
+         <div class="container" id="curve_chart" style="width: 700px; height: 400px"></div>
    </body>
 
    <div>

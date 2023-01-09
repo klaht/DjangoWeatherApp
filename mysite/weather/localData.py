@@ -21,8 +21,10 @@ class Day:
 
 
 class TimeSlot:
-    def __init__(self, date, time, temperature, humidity):
+    def __init__(self, date, time, temperature, humidity, description, icon_code):
         self.date = date
         self.time = time
         self.temperature = temperature
         self.humidity = humidity
+        self.description = description
+        self.icon_code = icon_code

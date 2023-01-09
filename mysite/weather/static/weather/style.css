@@ -1,0 +1,16 @@
+.btn {
+display: inline-block;
+width: 150px;
+white-space: normal;
+word-wrap: break-word;
+padding: 15px 25px;
+margin: 10px;
+background-color: rgb(13, 110, 253);
+border: 2px solid black;
+border-radius: 5px;
+text-align: center;
+outline: none;
+font-size: 13px;
+color: #ffffff;
+cursor: pointer;
+}
