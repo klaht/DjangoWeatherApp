@@ -9,17 +9,14 @@
    <body>
       <h2>{{week.city}}</h2>
       <br>
-
       {% for day in week.days %}
       <button class="btn btn-primary" onclick="location.href='day/{{day.day_num}}/0/t'">
-        <i class="fa fa-caret-right" ></i>
-             {{day.date}}<br>Temperature: {{day.temperature}} °<br>Humidity: {{day.humidity}}
+      <i class="fa fa-caret-right" ></i>
+      {{day.date}}<br>Temperature: {{day.temperature}} °<br>Humidity: {{day.humidity}}
       </button>
       {% endfor %}
-
-
       <div>
-         <br><input type=button value="Back to main page" onClick="location.href='/weather'">
+         <br><input type=button value="Back to main page" class="btn btn-primary" onClick="location.href='/weather'">
       </div>
    </body>
 </html>

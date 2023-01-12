@@ -6,40 +6,27 @@
       <title>Title</title>
       {% block main_content %}
    <body>
-      <div class="container d-flex flex-wrap">
-      <ul class="nav me-auto">
-         {% if day.day_num > 1 %}
-         <input type=button class="btn btn-primary btn-lg" value="Prev day" onclick="location.href='/weather/city/day/{{day.day_num|add:-1}}/0/t'">
-         {% endif %}
-      </ul>
-      <ul class="nav">
-         {% if day.day_num < 6 %}
-         <input type=button value="Next day" class="btn btn-primary btn-lg" onclick="location.href='/weather/city/day/{{day.day_num|add:+1}}/0/t'">
-         {% endif %}
-      </ul>
-   </div>
+      <div class="container d-flex flex-wrap px-0">
+         <ul class="nav me-auto">
+            {% if day.day_num > 1 %}
+            <input type=button class="btn btn-primary btn-lg" value="Prev day" onclick="location.href='/weather/city/day/{{day.day_num|add:-1}}/0/{{graph_url}}'">
+            {% else %}
+            <input type=button disabled class="btn btn-secondary btn-lg" value="Prev day" onclick="location.href='/weather/city/day/{{day.day_num|add:-1}}/0/{{graph_url}}'">
+            {% endif %}
+         </ul>
+         <ul class="nav">
+            {% if day.day_num < 6 %}
+            <input type=button value="Next day" class="btn btn-primary btn-lg" onclick="location.href='/weather/city/day/{{day.day_num|add:+1}}/0/{{graph_url}}'">
+            {% else %}
+            <input type=button disabled value="Next day" class="btn btn-secondary btn-lg" onclick="location.href='/weather/city/day/{{day.day_num|add:+1}}/0/{{graph_url}}'">
+            {% endif %}
+         </ul>
+      </div>
       <div>
          <br>
          <h2>{{day.city}}</h2>
          <h2> {{day.date}}</h2>
-      <div class="col-md-6">
-        <div class="w-75 p-3 bg-info border rounded-3">
-         <div class="container">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
-               <div>
-                  <p> {{slot.time}} {{slot.description}}</p>
-                  <p> Temperature: {{slot.temperature}} </p>
-                  <p> Humidity: {{slot.humidity}} </p>
-               </div>
-               <div class="weather-icon"><img src="http://openweathermap.org/img/wn/{{slot.icon_code}}@2x.png" /></div>
-            </div>
-
-
-          </div>
-
-        </div>
       </div>
-
       <header class="d-flex flex-wrap justify-content-left py-3 mb-4 border-bottom">
       <ul class="nav nav-pills">
          {%if hourValues.0.1 == "Temperature" %}
@@ -50,7 +37,7 @@
          <li class="nav-item"><a href="h" class="nav-link active">Humidity</a></li>
          {% endif %}
       </ul>
-      </div>
+      </header>
       <head>
          <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
          <script type="text/javascript">
@@ -73,7 +60,7 @@
                 var selectedItem = chart.getSelection()[0];
                 if (selectedItem) {
 
-                  window.location.href = "/weather/city/day/{{day.day_num}}/" + selectedItem.row + "/t";
+                  window.location.href = "/weather/city/day/{{day.day_num}}/" + selectedItem.row + "/{{graph_url}}";
                 }
               }
 
@@ -85,11 +72,36 @@
          </script>
       </head>
       <body>
-         <div class="container" id="curve_chart" style="width: 700px; height: 400px"></div>
+         <div class="row row-cols-5">
+            <div class="col">
+               <div class="h-50 w-100 p-5 text-bg-dark rounded-3 pb-0 pt-0">
+                  <div class="col-sm- ">
+                     <div class="weather-icon"><img src="http://openweathermap.org/img/wn/{{slot.icon_code}}@2x.png" /></div>
+                     <style>
+                        img {
+                        display: block;
+                        margin-left: auto;
+                        margin-right: auto;
+                        }
+                     </style>
+                     <div class="container">
+                        <p> {{slot.time}} {{slot.description}}</p>
+                        <p> Temperature: {{slot.temperature}} </p>
+                        <p> Humidity: {{slot.humidity}} </p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md">
+               <div class="h-100 w-100 p-5 bg-dark border rounded-3">
+                  <div class="container" id="curve_chart" style="width: 500; height: 400px">
+                  </div>
+               </div>
+            </div>
+         </div>
    </body>
-
    <div>
-      <br><input type=button value="Back to week page" onClick="location.href='/weather/city/?city={{day.city}}'">
+      <br><input type=button value="Back to week view" class="btn btn-primary" onClick="location.href='/weather/city/?city={{day.city}}'">
    </div>
    </body>
 </html>

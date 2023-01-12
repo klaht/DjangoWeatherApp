@@ -91,6 +91,6 @@ def day_view(request, pk, graph, slot):
                 day_data.append([day_slot.time, day_slot.humidity])
 
 
-        return render(request, 'weather/day.html', {'day': day, 'hourValues': day_data, 'slot': currently_shown_slot})
+        return render(request, 'weather/day.html', {'day': day, 'hourValues': day_data, 'slot': currently_shown_slot, 'graph_url': graph})
 
     return render(request, 'weather/error.html')
