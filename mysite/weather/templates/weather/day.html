@@ -7,25 +7,29 @@
       {% block main_content %}
    <body>
       <div class="container d-flex flex-wrap px-0">
+
          <ul class="nav me-auto">
             {% if day.day_num > 1 %}
-            <input type=button class="btn btn-primary btn-lg" value="Prev day" onclick="location.href='/weather/city/day/{{day.day_num|add:-1}}/0/{{graph_url}}'">
+         <button class="btn btn-primary btn-lg" onclick="location.href='/weather/city/day/{{day.day_num|add:-1}}/0/{{graph_url}}'"><i class="fa fa-solid fa-arrow-left"></i></button>
+
             {% else %}
-            <input type=button disabled class="btn btn-secondary btn-lg" value="Prev day" onclick="location.href='/weather/city/day/{{day.day_num|add:-1}}/0/{{graph_url}}'">
+               <button class="btn btn-secondary btn-lg" disabled onclick="location.href='/weather/city/day/{{day.day_num|add:-1}}/0/{{graph_url}}'"><i class="fa fa-solid fa-arrow-left"></i></button>
+
             {% endif %}
          </ul>
          <ul class="nav">
             {% if day.day_num < 6 %}
-            <input type=button value="Next day" class="btn btn-primary btn-lg" onclick="location.href='/weather/city/day/{{day.day_num|add:+1}}/0/{{graph_url}}'">
+            <button class="btn btn-primary btn-lg" onclick="location.href='/weather/city/day/{{day.day_num|add:+1}}/0/{{graph_url}}'"><i class="fa fa-solid fa-arrow-right"></i></button>
             {% else %}
-            <input type=button disabled value="Next day" class="btn btn-secondary btn-lg" onclick="location.href='/weather/city/day/{{day.day_num|add:+1}}/0/{{graph_url}}'">
+               <button class="btn btn-secondary btn-lg" disabled onclick="location.href='/weather/city/day/{{day.day_num|add:+1}}/0/{{graph_url}}'"><i class="fa fa-solid fa-arrow-right"></i></button>
             {% endif %}
          </ul>
       </div>
       <div>
          <br>
-         <h2>{{day.city}}</h2>
-         <h2> {{day.date}}</h2>
+         <h5> {{day.city}} </h5>
+         <h5> {{day.date}} </h5>
+         <h5> {{day.weekday}} </h5>
       </div>
       <header class="d-flex flex-wrap justify-content-left py-3 mb-4 border-bottom">
       <ul class="nav nav-pills">
@@ -74,9 +78,9 @@
       <body>
          <div class="row row-cols-5">
             <div class="col">
-               <div class="h-50 w-100 p-5 text-bg-dark rounded-3 pb-0 pt-0">
+               <div class="h-100 w-100 p-5 text-bg-dark rounded-3 pb-0 pt-0">
                   <div class="col-sm- ">
-                     <div class="weather-icon"><img src="http://openweathermap.org/img/wn/{{slot.icon_code}}@2x.png" /></div>
+                     <div class="weather-icon"><img style="width: 7vw; height: 7vw" src="http://openweathermap.org/img/wn/{{slot.icon_code}}@2x.png" /></div>
                      <style>
                         img {
                         display: block;
@@ -85,16 +89,18 @@
                         }
                      </style>
                      <div class="container">
-                        <p> {{slot.time}} {{slot.description}}</p>
-                        <p> Temperature: {{slot.temperature}} </p>
-                        <p> Humidity: {{slot.humidity}} </p>
+                        <p> {{slot.time}} </p>
+                        <p>  {{slot.description}} </p>
+                        <p> Temperature: <br> {{slot.temperature}}</p>
+                        <p> Humidity: <br> {{slot.humidity}} </p>
+                        <p> Wind speed: <br> {{slot.wind_speed}} </p>
                      </div>
                   </div>
                </div>
             </div>
             <div class="col-md">
-               <div class="h-100 w-100 p-5 bg-dark border rounded-3">
-                  <div class="container" id="curve_chart" style="width: 500; height: 400px">
+               <div class="h-100 w-100 p-5 bg-dark border rounded-3 ">
+                  <div class="container" id="curve_chart" style="width: 40vw; height: 20vw">
                   </div>
                </div>
             </div>

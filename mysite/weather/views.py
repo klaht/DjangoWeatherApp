@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404
 import requests
 from .forms import CityForm
 import json
+import datetime
 
 from .localData import Week, Day, TimeSlot
 
@@ -19,7 +20,9 @@ def organize_API_data(city):
     forecast_data = f"https://api.openweathermap.org/data/2.5/forecast?q={city}&units=metric&appid={api_key}"
     response = requests.get(forecast_data)
     data_json = response.json()
-    #print(data_json["list"][0]["weather"][0]["main"])
+
+
+    days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
     if data_json["cod"] != "404":
         i = 0
@@ -28,10 +31,17 @@ def organize_API_data(city):
 
         # fill the local week data structure with the data from the api
         for day_num in range(6):
+            year = data_json["list"][i]["dt_txt"].split()[0][0:4]
+            month = data_json["list"][i]["dt_txt"].split()[0][5:7]
+            day = data_json["list"][i]["dt_txt"].split()[0][8:10]
+
+            date = datetime.date(int(year), int(month), int(day))
             day = Day(data_json["list"][i]["dt_txt"].split()[0],
                       data_json["list"][i]["dt_txt"].split()[1],
                       data_json["list"][i]["main"]["temp"],
-                      data_json["list"][i]["main"]["humidity"], day_num + 1)
+                      data_json["list"][i]["main"]["humidity"], day_num + 1, days[date.weekday()],
+                      data_json["list"][i]["weather"][0]["icon"]
+                      )
             week.days.append(day)
             while i < len(data_json["list"]):
                 if data_json["list"][i]["dt_txt"][5:10] == current_day:
@@ -40,7 +50,8 @@ def organize_API_data(city):
                                          data_json["list"][i]["main"]["temp"],
                                          data_json["list"][i]["main"]["humidity"],
                                          data_json["list"][i]["weather"][0]["main"],
-                                         data_json["list"][i]["weather"][0]["icon"])
+                                         data_json["list"][i]["weather"][0]["icon"],
+                                         data_json["list"][i]["wind"]["speed"])
                     day.timeslots.append(time_slot)
                     i += 1
                     day_index += 1
