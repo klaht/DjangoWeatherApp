@@ -12,7 +12,7 @@
       <div class="container">
       {% for day in week.days %}
       <button class="btn btn-primary" style="margin:2px" onclick="location.href='day/{{day.day_num}}/0/t'">
-      {{day.date}} <br> {{day.weekday}} <br>{{day.temperature}} °
+      {{day.date}} <br> {{day.weekday}} <br>{{day.get_avg_temp}} °
       <div class="weather-icon"><img style="width: 6vw; height: 6vw" src="http://openweathermap.org/img/wn/{{day.icon}}@2x.png" /></div>
 
       </button>

@@ -76,31 +76,22 @@
          </script>
       </head>
       <body>
-         <div class="row row-cols-5">
-            <div class="col">
-               <div class="h-100 w-100 p-5 text-bg-dark rounded-3 pb-0 pt-0">
-                  <div class="col-sm- ">
-                     <div class="weather-icon"><img style="width: 7vw; height: 7vw" src="http://openweathermap.org/img/wn/{{slot.icon_code}}@2x.png" /></div>
-                     <style>
-                        img {
-                        display: block;
-                        margin-left: auto;
-                        margin-right: auto;
-                        }
-                     </style>
-                     <div class="container">
-                        <p> {{slot.time}} </p>
-                        <p>  {{slot.description}} </p>
-                        <p> Temperature: <br> {{slot.temperature}}</p>
-                        <p> Humidity: <br> {{slot.humidity}} </p>
-                        <p> Wind speed: <br> {{slot.wind_speed}} </p>
-                     </div>
-                  </div>
+         <div class="row align-items-md-stretch">
+            <div class="col-md-2">
+               <div class="h-100 p-5 text-bg-dark rounded-3 pb-0 pt-2">
+
+                  <div class="row text-center"><img class="img-responsive" src="http://openweathermap.org/img/wn/{{slot.icon_code}}@2x.png" /></div>
+                  <p> {{slot.time}} </p>
+                  <p> {{slot.description}} </p>
+                  <p> Temperature: <br> {{slot.temperature}} </p>
+                  <p> Humidity: <br> {{slot.humidity}} </p>
+                  <p> Wind speed: <br> {{slot.wind_speed}} </p>
+
                </div>
             </div>
-            <div class="col-md">
-               <div class="h-100 w-100 p-5 bg-dark border rounded-3 ">
-                  <div class="container" id="curve_chart" style="width: 40vw; height: 20vw">
+            <div class="col-md-9">
+               <div class="h-100 p-5 bg-dark border rounded-3 ">
+                  <div class="container" id="curve_chart" style="width: 40vw; height: 25vw">
                   </div>
                </div>
             </div>

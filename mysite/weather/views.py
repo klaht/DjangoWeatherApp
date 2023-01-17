@@ -10,22 +10,22 @@ from .localData import Week, Day, TimeSlot
 api_key = "dd82f9fc45781a5307d640e53bfcee0d"
 
 
+# render index page
 def index(request):
     return render(request, 'weather/index.html')
 
 
+# organize data gathered from API into a class structure
 def organize_API_data(city):
-    week = Week(city)
-
-    forecast_data = f"https://api.openweathermap.org/data/2.5/forecast?q={city}&units=metric&appid={api_key}"
+    forecast_data = f"https://api.openweathermap.org/data/2.5/forecast?q={city}&units=metric&appid={api_key}&mode=json"
     response = requests.get(forecast_data)
     data_json = response.json()
 
-
     days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-
     if data_json["cod"] != "404":
+        week = Week(city)
         i = 0
+        # parse current day from API data
         current_day = data_json["list"][0]["dt_txt"][5:10]
         day_index = 0
 
@@ -60,9 +60,10 @@ def organize_API_data(city):
                     break
         return week
 
-    return HttpResponse("Error")
+    return "404"
 
 
+# render week view page
 def week_view(request):
     if request.method == 'GET':
 
@@ -72,14 +73,15 @@ def week_view(request):
             # organize api data from user inputted city into a variable "week"
             city = form.cleaned_data.get("city").capitalize()
             week = organize_API_data(city)
+            if week != "404":
+                request.session['city'] = city
 
-            request.session['city'] = city
-
-            return render(request, 'weather/week.html', {'week': week})
+                return render(request, 'weather/week.html', {'week': week})
 
     return render(request, 'weather/error.html')
 
 
+# render day view page
 def day_view(request, pk, graph, slot):
     if request.method == 'GET':
         city = request.session.get('city')
@@ -101,7 +103,8 @@ def day_view(request, pk, graph, slot):
             for day_slot in day.timeslots:
                 day_data.append([day_slot.time, day_slot.humidity])
 
-
-        return render(request, 'weather/day.html', {'day': day, 'hourValues': day_data, 'slot': currently_shown_slot, 'graph_url': graph})
+        return render(request, 'weather/day.html',
+                      {'day': day, 'hourValues': day_data, 'slot': currently_shown_slot,
+                       'graph_url': graph})
 
     return render(request, 'weather/error.html')

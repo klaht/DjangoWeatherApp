@@ -18,9 +18,15 @@ class Day:
         self.weekday = weekday
         self.icon = icon
 
-
     def set_city(self, city):
         self.city = city
+
+    # calculate average temperature of the whole day
+    def get_avg_temp(self):
+        avg_temp = 0.0
+        for i in self.timeslots:
+            avg_temp += i.temperature
+        return round(avg_temp / len(self.timeslots), 2)
 
 
 class TimeSlot:
