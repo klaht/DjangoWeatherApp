@@ -5,9 +5,11 @@ from .forms import CityForm
 import json
 import datetime
 
-from .localData import Week, Day, TimeSlot
 
-api_key = "dd82f9fc45781a5307d640e53bfcee0d"
+from .localData import Week, Day, TimeSlot
+from django.conf import settings
+
+api_key = settings.API_KEY
 
 
 # render index page
